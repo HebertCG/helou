@@ -40,7 +40,7 @@ export function ConversationLab() {
             <span className="chat-avatar" aria-hidden="true"><ChatCircleDots size={20} weight="fill" /></span>
             <div>
               <strong>{ASSISTANT_NAME} · {BUSINESS_NAME}</strong>
-              <span><i aria-hidden="true" /> En línea</span>
+              <span className="chat-status"><span className="chat-status-dot" aria-hidden="true" /> En línea</span>
             </div>
           </div>
 
