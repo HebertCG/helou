@@ -1,6 +1,13 @@
 import { expect, test } from '@playwright/test'
 
 test.beforeEach(async ({ page }) => {
+  // Estas pruebas asumen que el visitante ya decidió sobre las cookies.
+  await page.addInitScript(() => {
+    window.localStorage.setItem(
+      'helou-cookie-consent',
+      JSON.stringify({ version: 1, necessary: true, analytics: false, savedAt: Date.now() }),
+    )
+  })
   await page.goto('/')
 })
 
@@ -79,6 +86,10 @@ test('el formulario muestra errores y confirma el envío', async ({ page }) => {
   await page.getByLabel('Nombre').fill('María')
   await page.getByLabel('Correo').fill('maria@ejemplo.com')
   await page.getByLabel('¿Qué conversación quieres mejorar?').fill('Quiero mejorar el soporte a clientes.')
+  await page.locator('.contact-form').getByRole('button', { name: 'Hablemos' }).click()
+  await expect(page.getByRole('alert')).toContainText('Necesitamos tu autorización')
+
+  await page.getByLabel(/Acepto la Política de privacidad/).check()
   await page.locator('.contact-form').getByRole('button', { name: 'Hablemos' }).click()
   await expect(page.getByRole('status')).toContainText('Todo listo')
 })

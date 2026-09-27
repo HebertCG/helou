@@ -926,6 +926,32 @@ html:not(.fonts-ready) .hero-enter,
   box-shadow: 0 0 0 4px rgba(102, 64, 252, 0.18);
 }
 
+.contact-form .form-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.45;
+  cursor: pointer;
+}
+
+.contact-form .form-consent input {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  margin: 1px 0 0;
+  accent-color: var(--violet);
+  cursor: pointer;
+}
+
+.form-consent a {
+  color: var(--violet-dark);
+  font-weight: 760;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .form-button {
   justify-self: start;
 }

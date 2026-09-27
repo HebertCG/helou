@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://helou.net.pe/sitemap.xml

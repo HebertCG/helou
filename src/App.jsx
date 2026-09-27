@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import {
   ArrowRight,
   ArrowUpRight,
-  ChatCircleDots,
   Check,
   CursorClick,
   List,
@@ -13,7 +12,9 @@ import {
   Target,
   X,
 } from '@phosphor-icons/react'
+import { Brand } from './components/Brand.jsx'
 import { ConversationLab } from './components/ConversationLab.jsx'
+import { CookieConsent } from './components/CookieConsent.jsx'
 import { Manifesto } from './components/Manifesto.jsx'
 import { SiteFooter } from './components/SiteFooter.jsx'
 import { WhatsAppButton } from './components/WhatsAppButton.jsx'
@@ -25,17 +26,6 @@ const deliverables = [
   ['Prototipo navegable', 'Una conversación real para probar antes de desarrollar.'],
   ['Sistema de voz', 'Criterios para mantener el mismo tono en cada canal.'],
 ]
-
-function Brand() {
-  return (
-    <span className="brand-content">
-      <span className="brand-mark" aria-hidden="true">
-        <ChatCircleDots size={25} weight="fill" />
-      </span>
-      <span>Helou</span>
-    </span>
-  )
-}
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -78,6 +68,12 @@ function App() {
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setFormError('Ingresa un correo válido para que podamos responderte.')
+      setFormState('error')
+      return
+    }
+
+    if (!data.get('privacy')) {
+      setFormError('Necesitamos tu autorización para usar tus datos y poder responderte.')
       setFormState('error')
       return
     }
@@ -324,6 +320,13 @@ function App() {
               <span>¿Qué conversación quieres mejorar?</span>
               <textarea name="message" rows="4" placeholder="Cuéntanos el reto, canal y objetivo"></textarea>
             </label>
+            <label className="form-consent">
+              <input name="privacy" type="checkbox" />
+              <span>
+                Acepto la <a href="/privacidad/" target="_blank" rel="noopener">Política de privacidad</a> y
+                autorizo el uso de mis datos para responder mi consulta.
+              </span>
+            </label>
 
             {formState === 'error' && <p className="form-message form-error" role="alert">{formError}</p>}
             {formState === 'success' && (
@@ -345,6 +348,7 @@ function App() {
 
       <SiteFooter brand={<Brand />} />
       <WhatsAppButton />
+      <CookieConsent />
     </div>
   )
 }

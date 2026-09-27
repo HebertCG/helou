@@ -3,10 +3,11 @@ import { useRef } from 'react'
 import { ArrowUpRight, WhatsappLogo } from '@phosphor-icons/react'
 import { useScrollProgress } from '../hooks/useScrollProgress.js'
 import { WHATSAPP_HREF } from '../config.js'
+import { openCookiePreferences } from '../lib/consent.js'
 
 const orbs = ['orb-sphere', 'orb-pill', 'orb-small']
 
-export function SiteFooter({ brand }) {
+export function SiteFooter({ brand, homeHref = '#inicio' }) {
   const footerRef = useRef(null)
   useScrollProgress(footerRef)
 
@@ -44,9 +45,15 @@ export function SiteFooter({ brand }) {
         </div>
 
         <div className="footer-bottom">
-          <a className="brand" href="#inicio" aria-label="Helou, volver al inicio">{brand}</a>
+          <a className="brand" href={homeHref} aria-label="Helou, volver al inicio">{brand}</a>
           <p>Diseño conversacional · {new Date().getFullYear()}</p>
-          <a className="footer-top-link" href="#inicio">
+          <nav className="footer-legal" aria-label="Información legal">
+            <a href="/privacidad/">Privacidad</a>
+            <a href="/terminos/">Términos</a>
+            <a href="/cookies/">Cookies</a>
+            <button type="button" onClick={openCookiePreferences}>Preferencias de cookies</button>
+          </nav>
+          <a className="footer-top-link" href={homeHref}>
             Volver arriba <ArrowUpRight size={14} weight="bold" aria-hidden="true" />
           </a>
         </div>
