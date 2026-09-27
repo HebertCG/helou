@@ -11,7 +11,7 @@ export function SiteFooter({ brand, homeHref = '#inicio' }) {
   useScrollProgress(footerRef)
 
   return (
-    <footer className="site-footer" ref={footerRef}>
+    <footer className="site-footer" id="conversemos" ref={footerRef}>
       <svg className="svg-defs" aria-hidden="true" focusable="false">
         <filter id="orb-grain">
           <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="noise" />

@@ -229,7 +229,7 @@ function App() {
               <p className="process-detail">
                 Definimos la intención, el tono y cada ruta antes de desarrollar. Así reducimos dudas, detectamos fricciones y construimos con evidencia.
               </p>
-              <a className="button button-green" href="#contacto">
+              <a className="button button-green" href="#conversemos">
                 Hablemos <ArrowRight size={18} />
               </a>
             </div>

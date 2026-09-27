@@ -144,3 +144,12 @@ test('el footer invita a contactar por WhatsApp y oculta el botón flotante', as
   await expect(cta).toHaveAttribute('href', /^https:\/\/wa\.me\/\d+\?text=/)
   await expect(page.locator('.whatsapp-fab')).not.toHaveClass(/is-visible/)
 })
+
+test('el botón Hablemos del proceso lleva al contacto por WhatsApp del footer', async ({ page }) => {
+  const processButton = page.locator('.process-copy').getByRole('link', { name: 'Hablemos' })
+  await processButton.scrollIntoViewIfNeeded()
+  await expect(processButton).toHaveAttribute('href', '#conversemos')
+
+  await processButton.click()
+  await expect(page.locator('.site-footer').getByRole('link', { name: 'Contactar por WhatsApp' })).toBeInViewport()
+})
