@@ -1,0 +1,9 @@
+{
+  // Sitio estático servido por Cloudflare Workers (salida de `npm run build`).
+  "name": "helou",
+  "compatibility_date": "2025-09-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  }
+}
