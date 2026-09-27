@@ -1,32 +1,13 @@
 import { expect, test } from '@playwright/test'
 
-test('el aviso de cookies aparece en la primera visita y recuerda la elección', async ({ page }) => {
+test('el sitio no muestra aviso de cookies y enlaza las páginas legales', async ({ page }) => {
   await page.goto('/')
-  const banner = page.getByRole('dialog', { name: '¿Hablamos de cookies?' })
-  await expect(banner).toBeVisible()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
 
-  await banner.getByRole('button', { name: 'Solo necesarias' }).click()
-  await expect(banner).toBeHidden()
-  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('helou-cookie-consent')))
-  expect(saved).toMatchObject({ necessary: true, analytics: false })
-
-  await page.reload()
-  await expect(page.getByRole('dialog', { name: '¿Hablamos de cookies?' })).toBeHidden()
-})
-
-test('las preferencias de cookies se pueden cambiar desde el footer', async ({ page }) => {
-  await page.goto('/')
-  await page.getByRole('dialog').getByRole('button', { name: 'Aceptar todas' }).click()
-
-  await page.locator('.footer-legal').scrollIntoViewIfNeeded()
-  await page.getByRole('button', { name: 'Preferencias de cookies' }).click()
-  const banner = page.getByRole('dialog', { name: '¿Hablamos de cookies?' })
-  await expect(banner.getByLabel(/Analítica/)).toBeChecked()
-
-  await banner.getByLabel(/Analítica/).uncheck()
-  await banner.getByRole('button', { name: 'Guardar preferencias' }).click()
-  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('helou-cookie-consent')))
-  expect(saved.analytics).toBe(false)
+  const legalNav = page.getByRole('navigation', { name: 'Información legal' })
+  await expect(legalNav.getByRole('link', { name: 'Privacidad' })).toHaveAttribute('href', '/privacidad/')
+  await expect(legalNav.getByRole('link', { name: 'Términos' })).toHaveAttribute('href', '/terminos/')
+  await expect(legalNav.getByRole('link', { name: 'Cookies' })).toHaveAttribute('href', '/cookies/')
 })
 
 for (const [path, heading] of [

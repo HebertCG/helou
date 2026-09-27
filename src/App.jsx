@@ -14,7 +14,6 @@ import {
 } from '@phosphor-icons/react'
 import { Brand } from './components/Brand.jsx'
 import { ConversationLab } from './components/ConversationLab.jsx'
-import { CookieConsent } from './components/CookieConsent.jsx'
 import { Manifesto } from './components/Manifesto.jsx'
 import { SiteFooter } from './components/SiteFooter.jsx'
 import { WhatsAppButton } from './components/WhatsAppButton.jsx'
@@ -348,7 +347,6 @@ function App() {
 
       <SiteFooter brand={<Brand />} />
       <WhatsAppButton />
-      <CookieConsent />
     </div>
   )
 }

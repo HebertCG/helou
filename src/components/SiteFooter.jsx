@@ -3,7 +3,6 @@ import { useRef } from 'react'
 import { ArrowUpRight, WhatsappLogo } from '@phosphor-icons/react'
 import { useScrollProgress } from '../hooks/useScrollProgress.js'
 import { WHATSAPP_HREF } from '../config.js'
-import { openCookiePreferences } from '../lib/consent.js'
 
 const orbs = ['orb-sphere', 'orb-pill', 'orb-small']
 
@@ -51,7 +50,6 @@ export function SiteFooter({ brand, homeHref = '#inicio' }) {
             <a href="/privacidad/">Privacidad</a>
             <a href="/terminos/">Términos</a>
             <a href="/cookies/">Cookies</a>
-            <button type="button" onClick={openCookiePreferences}>Preferencias de cookies</button>
           </nav>
           <a className="footer-top-link" href={homeHref}>
             Volver arriba <ArrowUpRight size={14} weight="bold" aria-hidden="true" />

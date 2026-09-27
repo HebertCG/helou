@@ -1,7 +1,6 @@
 import './legal.css'
 import { ArrowLeft } from '@phosphor-icons/react'
 import { Brand } from '../components/Brand.jsx'
-import { CookieConsent } from '../components/CookieConsent.jsx'
 import { SiteFooter } from '../components/SiteFooter.jsx'
 import { LEGAL } from '../config.js'
 
@@ -32,7 +31,6 @@ export function LegalPage({ kicker, title, intro, children }) {
       </main>
 
       <SiteFooter brand={<Brand />} homeHref="/" />
-      <CookieConsent />
     </div>
   )
 }

@@ -219,19 +219,12 @@
   gap: 6px 18px;
 }
 
-.footer-legal a,
-.footer-legal button {
-  padding: 0;
-  border: 0;
-  background: none;
+.footer-legal a {
   color: color-mix(in srgb, var(--footer-ink) 80%, transparent);
-  font-size: inherit;
-  cursor: pointer;
   transition: color 200ms ease;
 }
 
-.footer-legal a:hover,
-.footer-legal button:hover {
+.footer-legal a:hover {
   color: var(--pink);
 }
 

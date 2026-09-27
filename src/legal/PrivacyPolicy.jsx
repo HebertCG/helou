@@ -28,7 +28,6 @@ export function PrivacyPolicy() {
           <li><strong>Formulario de contacto:</strong> nombre, correo electrónico, empresa (opcional) y el mensaje que nos escribas.</li>
           <li><strong>WhatsApp:</strong> si nos escribes por WhatsApp, recibimos tu número, tu nombre de perfil y los mensajes que envíes.</li>
           <li><strong>Datos técnicos:</strong> nuestro proveedor de alojamiento puede registrar tu dirección IP, tipo de navegador y la fecha de la visita, para seguridad y funcionamiento del sitio.</li>
-          <li><strong>Preferencias de cookies:</strong> guardamos en tu propio navegador la elección que hagas en el aviso de cookies.</li>
         </ul>
         <p>No pedimos datos sensibles y te pedimos no incluirlos en tus mensajes.</p>
       </section>
@@ -116,7 +115,7 @@ export function PrivacyPolicy() {
       <section>
         <h2>10. Cookies</h2>
         <p>
-          Para saber qué cookies y almacenamiento usamos, revisa nuestra{' '}
+          No usamos cookies de publicidad ni de seguimiento. Para más detalle, revisa nuestra{' '}
           <a href="/cookies/">Política de cookies</a>.
         </p>
       </section>

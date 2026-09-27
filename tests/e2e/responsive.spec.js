@@ -1,13 +1,6 @@
 import { expect, test } from '@playwright/test'
 
 test.beforeEach(async ({ page }) => {
-  // Estas pruebas asumen que el visitante ya decidió sobre las cookies.
-  await page.addInitScript(() => {
-    window.localStorage.setItem(
-      'helou-cookie-consent',
-      JSON.stringify({ version: 1, necessary: true, analytics: false, savedAt: Date.now() }),
-    )
-  })
   await page.goto('/')
 })
 
