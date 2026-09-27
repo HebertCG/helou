@@ -1,0 +1,26 @@
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import '@fontsource/instrument-serif/400.css'
+import '@fontsource/instrument-serif/400-italic.css'
+import '@fontsource-variable/manrope'
+import '@fontsource-variable/archivo'
+import App from './App.jsx'
+import './styles.css'
+
+const FONT_WAIT_LIMIT_MS = 1500
+
+// Retiene la entrada del hero hasta tener la tipografía real (evita el salto de fuente).
+const markFontsReady = () => document.documentElement.classList.add('fonts-ready')
+Promise.race([
+  Promise.all([
+    document.fonts.load('400 1em "Instrument Serif"'),
+    document.fonts.load('italic 400 1em "Instrument Serif"'),
+  ]),
+  new Promise((resolve) => window.setTimeout(resolve, FONT_WAIT_LIMIT_MS)),
+]).finally(markFontsReady)
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)

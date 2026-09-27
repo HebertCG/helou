@@ -1,0 +1,289 @@
+.site-footer {
+  --footer-ink: #f3f1ff;
+  --footer-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --footer-clouds: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='1000' preserveAspectRatio='none'%3E%3Cfilter id='c' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0024' numOctaves='4' seed='9'/%3E%3CfeColorMatrix values='0 0 0 0 0.02 0 0 0 0 0.02 0 0 0 0 0.1 0 0 0 2.2 -0.95'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23c)'/%3E%3C/svg%3E");
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  padding: clamp(84px, 8vw, 120px) var(--page-pad) 34px;
+  color: var(--footer-ink);
+  /* Fondo "pintado": pigmentos violeta, rosa y durazno sobre tinta azul noche. */
+  background:
+    radial-gradient(50% 80% at -6% 30%, rgba(102, 64, 252, 0.95), transparent 70%),
+    radial-gradient(34% 60% at 22% 100%, rgba(242, 202, 255, 0.34), transparent 72%),
+    radial-gradient(40% 60% at 82% 0%, rgba(156, 155, 255, 0.4), transparent 72%),
+    radial-gradient(46% 70% at 88% 110%, rgba(255, 178, 150, 0.32), transparent 70%),
+    linear-gradient(160deg, #1b1f5c 0%, #10133f 50%, #080a26 100%);
+}
+
+.site-footer::before,
+.site-footer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.site-footer::before {
+  background: var(--footer-clouds) center / 100% 100% no-repeat;
+  opacity: 0.8;
+}
+
+.site-footer::after {
+  background: var(--footer-grain) 0 0 / 220px 220px;
+  mix-blend-mode: overlay;
+  opacity: 0.55;
+}
+
+.svg-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/*
+ * Esferas rayadas: empiezan arriba, cruzando el borde con la sección anterior,
+ * y bajan con el scroll hasta acomodarse al costado del título.
+ */
+.footer-orbs {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.orb-track {
+  --settle: calc(1 - var(--enter-progress, 1));
+  position: absolute;
+  display: block;
+  transform: translate3d(0, calc(var(--settle) * var(--rise)), 0)
+    rotate(calc(var(--settle) * var(--spin)));
+  will-change: transform;
+}
+
+.orb {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 26%, rgba(255, 255, 255, 0.5), transparent 40%),
+    radial-gradient(circle at 72% 78%, rgba(10, 0, 40, 0.5), transparent 62%),
+    repeating-linear-gradient(-42deg, var(--orb-base) 0 11%, var(--orb-stripe) 11% 20%);
+  box-shadow: 0 0 90px 24px color-mix(in srgb, var(--orb-glow) 40%, transparent);
+  filter: url(#orb-grain);
+  animation: orb-float var(--float-time, 7s) ease-in-out infinite alternate;
+}
+
+.orb-sphere {
+  top: clamp(40px, 5vw, 70px);
+  right: 40%;
+  width: clamp(110px, 10vw, 156px);
+  aspect-ratio: 1;
+  --rise: -100px;
+  --spin: -60deg;
+  --orb-base: var(--violet);
+  --orb-stripe: var(--green);
+  --orb-glow: var(--violet-soft);
+}
+
+.orb-pill {
+  top: clamp(120px, 12vw, 170px);
+  right: 16%;
+  width: clamp(190px, 19vw, 290px);
+  aspect-ratio: 2.1;
+  --rise: -190px;
+  --spin: 30deg;
+  --orb-base: var(--yellow);
+  --orb-stripe: var(--violet);
+  --orb-glow: var(--yellow);
+  --float-time: 9s;
+}
+
+.orb-pill .orb {
+  border-radius: 999px;
+  rotate: -28deg;
+}
+
+.orb-small {
+  top: clamp(24px, 3vw, 44px);
+  right: 6%;
+  width: clamp(76px, 7vw, 108px);
+  aspect-ratio: 1;
+  --rise: -80px;
+  --spin: -90deg;
+  --orb-base: var(--pink);
+  --orb-stripe: var(--violet);
+  --orb-glow: var(--pink);
+  --float-time: 6s;
+}
+
+.footer-inner {
+  position: relative;
+  z-index: 2;
+}
+
+.footer-cta {
+  max-width: 620px;
+}
+
+.footer-title {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(3rem, 5.6vw, 6rem);
+  font-weight: 400;
+  line-height: 0.96;
+  letter-spacing: -0.035em;
+}
+
+.footer-title > span {
+  display: block;
+}
+
+.footer-title em {
+  padding-right: 0.04em;
+  color: var(--pink);
+  font-style: italic;
+}
+
+.footer-cta > p {
+  max-width: 440px;
+  margin-top: 20px;
+  color: color-mix(in srgb, var(--footer-ink) 78%, transparent);
+  font-size: 1rem;
+}
+
+.footer-whatsapp {
+  margin-top: 32px;
+  min-height: 58px;
+  padding: 0 10px 0 26px;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  border: 2px solid var(--white);
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--violet-dark);
+  font-size: 0.95rem;
+  font-weight: 760;
+  transition:
+    background 220ms ease,
+    color 220ms ease,
+    transform 260ms var(--ease-out-expo);
+}
+
+.footer-whatsapp-icon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #1c9a61;
+  color: var(--white);
+  transition: transform 300ms var(--ease-out-expo);
+}
+
+.footer-whatsapp:hover {
+  background: var(--pink);
+  transform: translateY(-2px);
+}
+
+.footer-whatsapp:hover .footer-whatsapp-icon {
+  transform: rotate(-10deg) scale(1.06);
+}
+
+.footer-whatsapp:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.footer-bottom {
+  margin-top: clamp(56px, 6vw, 84px);
+  padding-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px 32px;
+  border-top: 2px solid color-mix(in srgb, var(--footer-ink) 80%, transparent);
+  font-size: 0.82rem;
+}
+
+.footer-bottom > p {
+  color: color-mix(in srgb, var(--footer-ink) 72%, transparent);
+}
+
+.footer-top-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 740;
+  transition: color 200ms ease, transform 260ms var(--ease-out-expo);
+}
+
+.footer-top-link:hover {
+  color: var(--pink);
+  transform: translateY(-2px);
+}
+
+@keyframes orb-float {
+  from { translate: 0 -12px; }
+  to { translate: 0 16px; }
+}
+
+@media (max-width: 900px) {
+  .orb-sphere {
+    right: 30%;
+  }
+
+  .orb-pill {
+    right: -30px;
+  }
+}
+
+@media (max-width: 767px) {
+  .site-footer {
+    padding: 190px 16px 34px;
+  }
+
+  .orb-sphere {
+    top: 36px;
+    right: 52%;
+    width: 96px;
+    --rise: -40px;
+  }
+
+  .orb-pill {
+    top: 70px;
+    right: -40px;
+    width: 170px;
+    --rise: -70px;
+  }
+
+  .orb-small {
+    top: 20px;
+    right: 34%;
+    width: 60px;
+    --rise: -20px;
+  }
+
+  .footer-title {
+    font-size: clamp(2.8rem, 12.5vw, 4rem);
+  }
+
+  .footer-whatsapp {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb-track {
+    transform: none;
+  }
+}

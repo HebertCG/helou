@@ -1,0 +1,4 @@
+// Número en formato internacional, sin "+" ni espacios (ej. 51987654321).
+export const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER ?? '51900000000'
+export const WHATSAPP_MESSAGE = 'Hola Helou, quiero mejorar una conversación de mi negocio.'
+export const WHATSAPP_HREF = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`
