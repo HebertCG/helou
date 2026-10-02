@@ -151,5 +151,7 @@ test('el botón Hablemos del proceso lleva al contacto por WhatsApp del footer',
   await expect(processButton).toHaveAttribute('href', '#conversemos')
 
   await processButton.click()
-  await expect(page.locator('.site-footer').getByRole('link', { name: 'Contactar por WhatsApp' })).toBeInViewport()
+  await expect(
+    page.locator('.site-footer').getByRole('link', { name: 'Contactar por WhatsApp' }),
+  ).toBeInViewport()
 })

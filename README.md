@@ -11,7 +11,9 @@ npm run build
 npm run test:e2e
 ```
 
-Las pruebas E2E cubren móvil, tablet, laptop y escritorio.
+Las pruebas E2E cubren móvil, tablet, laptop y escritorio en Chromium, y además
+Safari (WebKit) en iPhone y escritorio, incluido el caso con «Reducir movimiento»
+activado. Requieren los navegadores instalados: `npx playwright install chromium webkit`.
 
 ## Configuración
 

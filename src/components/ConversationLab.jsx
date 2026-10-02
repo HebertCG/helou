@@ -1,11 +1,15 @@
 import './conversation-lab.css'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { ArrowRight, ChatCircleDots, Check } from '@phosphor-icons/react'
+import { useInView } from '../hooks/useInView.js'
 import { ASSISTANT_NAME, BUSINESS_NAME, labScenarios } from './labScenarios.js'
 
 export function ConversationLab() {
   const [activeId, setActiveId] = useState(labScenarios[0].id)
   const scenario = labScenarios.find((item) => item.id === activeId) ?? labScenarios[0]
+  // La conversación se escribe cuando se ve, no al cargar la página.
+  const previewRef = useRef(null)
+  const isLive = useInView(previewRef, { once: true })
 
   return (
     <section className="conversation-lab section-bordered" id="laboratorio">
@@ -35,7 +39,7 @@ export function ConversationLab() {
           ))}
         </div>
 
-        <div className="conversation-preview">
+        <div className={`conversation-preview ${isLive ? 'is-live' : ''}`} ref={previewRef}>
           <div className="chat-header">
             <span className="chat-avatar" aria-hidden="true"><ChatCircleDots size={20} weight="fill" /></span>
             <div>

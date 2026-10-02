@@ -1,6 +1,7 @@
 import './site-footer.css'
 import { useRef } from 'react'
 import { ArrowUpRight, WhatsappLogo } from '@phosphor-icons/react'
+import { useInView } from '../hooks/useInView.js'
 import { useScrollProgress } from '../hooks/useScrollProgress.js'
 import { WHATSAPP_HREF } from '../config.js'
 
@@ -9,16 +10,15 @@ const orbs = ['orb-sphere', 'orb-pill', 'orb-small']
 export function SiteFooter({ brand, homeHref = '#inicio' }) {
   const footerRef = useRef(null)
   useScrollProgress(footerRef)
+  // El flotar de las esferas sólo corre mientras el footer está a la vista.
+  const isInView = useInView(footerRef)
 
   return (
-    <footer className="site-footer" id="conversemos" ref={footerRef}>
-      <svg className="svg-defs" aria-hidden="true" focusable="false">
-        <filter id="orb-grain">
-          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="noise" />
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="14" />
-        </filter>
-      </svg>
-
+    <footer
+      className={`site-footer ${isInView ? 'is-in-view' : ''}`}
+      id="conversemos"
+      ref={footerRef}
+    >
       <div className="footer-orbs" aria-hidden="true">
         {orbs.map((orb) => (
           <span className={`orb-track ${orb}`} key={orb}>

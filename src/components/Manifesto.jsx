@@ -1,5 +1,6 @@
 import './manifesto.css'
 import { useRef } from 'react'
+import { useInView } from '../hooks/useInView.js'
 import { useScrollProgress } from '../hooks/useScrollProgress.js'
 
 // Cada línea: [antes, resaltado, después]
@@ -13,9 +14,15 @@ const manifestoLines = [
 export function Manifesto() {
   const sectionRef = useRef(null)
   useScrollProgress(sectionRef)
+  // El flotar de la mascota sólo corre mientras la sección está a la vista.
+  const isInView = useInView(sectionRef)
 
   return (
-    <section className="manifesto section-bordered" ref={sectionRef} aria-labelledby="manifesto-title">
+    <section
+      className={`manifesto section-bordered ${isInView ? 'is-in-view' : ''}`}
+      ref={sectionRef}
+      aria-labelledby="manifesto-title"
+    >
       <p className="manifesto-kicker" data-reveal>Por qué Helou es para ti</p>
 
       <h2 id="manifesto-title" className="manifesto-lines" data-reveal-group>

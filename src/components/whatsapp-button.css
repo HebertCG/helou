@@ -31,7 +31,7 @@
   background: var(--whatsapp);
   color: var(--white);
   box-shadow:
-    0 0 0 10px color-mix(in srgb, var(--green) 45%, transparent),
+    0 0 0 10px rgb(var(--green-rgb) / 0.45),
     0 18px 36px -14px rgba(1, 40, 24, 0.6);
   transition: transform 260ms var(--ease-out-expo), background 200ms ease;
 }
@@ -42,8 +42,12 @@
   inset: -10px;
   border: 2px solid var(--green);
   border-radius: 50%;
-  animation: whatsapp-pulse 2.8s ease-out infinite;
   pointer-events: none;
+}
+
+/* El halo late solo con el boton en pantalla, no mientras esta oculto. */
+.whatsapp-fab.is-visible .whatsapp-fab-icon::after {
+  animation: whatsapp-pulse 2.8s ease-out infinite;
 }
 
 .whatsapp-fab-label {
@@ -103,11 +107,33 @@
     width: 56px;
     height: 56px;
     box-shadow:
-      0 0 0 7px color-mix(in srgb, var(--green) 45%, transparent),
+      0 0 0 7px rgb(var(--green-rgb) / 0.45),
       0 14px 28px -12px rgba(1, 40, 24, 0.6);
   }
 
   .whatsapp-fab-icon::after {
     inset: -7px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp-fab {
+    transform: none;
+    transition: opacity 400ms ease;
+  }
+
+  .whatsapp-fab.is-visible .whatsapp-fab-icon::after {
+    animation: none;
+  }
+
+  .whatsapp-fab-label {
+    transform: none;
+    transition: opacity 200ms ease;
+  }
+
+  .whatsapp-fab:hover .whatsapp-fab-icon,
+  .whatsapp-fab:focus-visible .whatsapp-fab-icon,
+  .whatsapp-fab:active .whatsapp-fab-icon {
+    transform: none;
   }
 }

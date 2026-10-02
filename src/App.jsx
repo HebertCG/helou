@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   ArrowRight,
   ArrowUpRight,
@@ -17,7 +17,11 @@ import { ConversationLab } from './components/ConversationLab.jsx'
 import { Manifesto } from './components/Manifesto.jsx'
 import { SiteFooter } from './components/SiteFooter.jsx'
 import { WhatsAppButton } from './components/WhatsAppButton.jsx'
+import { supportsInViewObserver } from './hooks/useInView.js'
 import { useSmoothScroll } from './hooks/useSmoothScroll.js'
+
+// Si el hero tarda más que esto, se muestra igual: nunca se queda oculto.
+const HERO_IMAGE_WAIT_LIMIT_MS = 2500
 
 const deliverables = [
   ['Mapa de intenciones', 'Qué necesita la persona y cómo llevarla al siguiente paso.'],
@@ -31,10 +35,38 @@ function App() {
   const [formState, setFormState] = useState('idle')
   const [formError, setFormError] = useState('')
   const [isHeroImageReady, setIsHeroImageReady] = useState(false)
+  const heroImageRef = useRef(null)
   useSmoothScroll()
+
+  /*
+   * La entrada del hero queda pausada hasta que la imagen está lista, así que
+   * nada puede dejar ese estado colgado: si llega ya resuelta desde caché el
+   * evento onLoad no vuelve a dispararse, y el temporizador cubre el caso
+   * contrario, una imagen que nunca termina de cargar.
+   */
+  useEffect(() => {
+    if (heroImageRef.current?.complete) {
+      setIsHeroImageReady(true)
+      return undefined
+    }
+    const timer = window.setTimeout(() => setIsHeroImageReady(true), HERO_IMAGE_WAIT_LIMIT_MS)
+    return () => window.clearTimeout(timer)
+  }, [])
 
   useEffect(() => {
     const elements = document.querySelectorAll('[data-reveal], [data-reveal-group]')
+
+    // Sin IntersectionObserver mostramos todo: mejor sin animar que en blanco.
+    if (!supportsInViewObserver) {
+      elements.forEach((element) => element.classList.add('is-visible'))
+      return undefined
+    }
+
+    /*
+     * threshold 0 + margen inferior: se dispara en cuanto el bloque asoma, sin
+     * depender de su alto. Con un umbral porcentual, una sección más alta que
+     * la pantalla puede no alcanzarlo nunca y quedarse oculta en móviles.
+     */
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -44,7 +76,7 @@ function App() {
           }
         })
       },
-      { threshold: 0.12 },
+      { threshold: 0, rootMargin: '0px 0px -10% 0px' },
     )
 
     elements.forEach((element) => observer.observe(element))
@@ -146,10 +178,12 @@ function App() {
 
           <figure className={`hero-visual hero-enter hero-enter-delay ${isHeroImageReady ? 'is-ready' : ''}`}>
             <img
+              ref={heroImageRef}
               src="/helo-wave-hero.webp"
               alt="Mascota de Helou saludando desde una gran burbuja de conversación"
               width="984"
               height="954"
+              decoding="async"
               fetchPriority="high"
               onLoad={() => setIsHeroImageReady(true)}
               onError={() => setIsHeroImageReady(true)}

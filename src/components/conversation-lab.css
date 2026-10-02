@@ -5,7 +5,7 @@
 
 .lab-options-label {
   margin: 0 0 6px 6px;
-  color: color-mix(in srgb, var(--violet-dark) 70%, transparent);
+  color: rgb(var(--violet-dark-rgb) / 0.7);
   font-size: 0.8rem;
   font-weight: 760;
   letter-spacing: 0.04em;
@@ -30,7 +30,8 @@
   align-items: center;
   gap: 12px;
   border-bottom: 2px solid var(--line);
-  background: color-mix(in srgb, var(--white) 55%, var(--green));
+  /* Mezcla opaca de --white 55% y --green 45%, ya resuelta. */
+  background: #cffae5;
 }
 
 .chat-header strong {
@@ -57,7 +58,7 @@
   background: radial-gradient(
     circle at center,
     #1c9a61 0 4px,
-    color-mix(in srgb, #1c9a61 28%, transparent) 4.5px 7px
+    rgb(28 154 97 / 0.28) 4.5px 7px
   );
 }
 
@@ -172,7 +173,7 @@
   padding: 7px 14px;
   border: 2px solid var(--violet);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--white) 70%, transparent);
+  background: rgb(var(--white-rgb) / 0.7);
   color: var(--violet);
   font-size: 0.8rem;
   font-weight: 740;
@@ -188,6 +189,14 @@
   font-weight: 730;
   animation: chat-in 480ms var(--ease-out-expo) both;
   animation-delay: 3300ms;
+}
+
+.conversation-preview:not(.is-live) .chat-bubble-user,
+.conversation-preview:not(.is-live) .chat-bubble-bot,
+.conversation-preview:not(.is-live) .chat-quick-replies,
+.conversation-preview:not(.is-live) .chat-typing,
+.conversation-preview:not(.is-live) .reply-hint {
+  animation-play-state: paused;
 }
 
 @keyframes chat-in {
@@ -224,11 +233,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* Se mantiene el ritmo de la conversacion, en fundido y sin desplazamiento. */
   .chat-bubble-user,
   .chat-bubble-bot,
   .chat-quick-replies,
   .conversation-preview .reply-hint {
-    animation: none;
+    animation-name: fade-in;
   }
 
   .chat-typing {

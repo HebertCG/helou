@@ -1,5 +1,6 @@
 .site-footer {
   --footer-ink: #f3f1ff;
+  --footer-ink-rgb: 243 241 255;
   --footer-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --footer-clouds: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='1000' preserveAspectRatio='none'%3E%3Cfilter id='c' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0024' numOctaves='4' seed='9'/%3E%3CfeColorMatrix values='0 0 0 0 0.02 0 0 0 0 0.02 0 0 0 0 0.1 0 0 0 2.2 -0.95'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23c)'/%3E%3C/svg%3E");
   position: relative;
@@ -36,13 +37,6 @@
   opacity: 0.55;
 }
 
-.svg-defs {
-  position: absolute;
-  width: 0;
-  height: 0;
-  overflow: hidden;
-}
-
 /*
  * Esferas rayadas: empiezan arriba, cruzando el borde con la sección anterior,
  * y bajan con el scroll hasta acomodarse al costado del título.
@@ -63,17 +57,39 @@
   will-change: transform;
 }
 
+/*
+ * El grano iba con filter: url(#orb-grain) (feTurbulence + feDisplacementMap).
+ * Safari no acelera los filtros SVG: con la esfera flotando en bucle, el filtro
+ * se recalculaba en cada fotograma y era el origen del tiron en iPhone; en
+ * algunas versiones de iOS el filtro ni se aplicaba y la esfera no aparecia.
+ * Ahora la textura es una imagen de fondo estatica, que si se compone en GPU.
+ */
 .orb {
+  position: relative;
   display: block;
   width: 100%;
   height: 100%;
+  overflow: hidden;
   border-radius: 50%;
   background:
     radial-gradient(circle at 30% 26%, rgba(255, 255, 255, 0.5), transparent 40%),
     radial-gradient(circle at 72% 78%, rgba(10, 0, 40, 0.5), transparent 62%),
     repeating-linear-gradient(-42deg, var(--orb-base) 0 11%, var(--orb-stripe) 11% 20%);
-  box-shadow: 0 0 90px 24px color-mix(in srgb, var(--orb-glow) 40%, transparent);
-  filter: url(#orb-grain);
+  box-shadow: 0 0 90px 24px var(--orb-glow);
+}
+
+.orb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--footer-grain) 0 0 / 150px 150px;
+  opacity: 0.32;
+  pointer-events: none;
+}
+
+/* El flotar solo corre con el footer a la vista: nada de bucles de fondo. */
+.site-footer.is-in-view .orb {
   animation: orb-float var(--float-time, 7s) ease-in-out infinite alternate;
 }
 
@@ -86,7 +102,7 @@
   --spin: -60deg;
   --orb-base: var(--violet);
   --orb-stripe: var(--green);
-  --orb-glow: var(--violet-soft);
+  --orb-glow: rgb(156 155 255 / 0.4);
 }
 
 .orb-pill {
@@ -98,7 +114,7 @@
   --spin: 30deg;
   --orb-base: var(--yellow);
   --orb-stripe: var(--violet);
-  --orb-glow: var(--yellow);
+  --orb-glow: rgb(255 210 120 / 0.4);
   --float-time: 9s;
 }
 
@@ -116,7 +132,7 @@
   --spin: -90deg;
   --orb-base: var(--pink);
   --orb-stripe: var(--violet);
-  --orb-glow: var(--pink);
+  --orb-glow: rgb(242 202 255 / 0.4);
   --float-time: 6s;
 }
 
@@ -150,7 +166,7 @@
 .footer-cta > p {
   max-width: 440px;
   margin-top: 20px;
-  color: color-mix(in srgb, var(--footer-ink) 78%, transparent);
+  color: rgb(var(--footer-ink-rgb) / 0.78);
   font-size: 1rem;
 }
 
@@ -205,12 +221,12 @@
   align-items: center;
   justify-content: space-between;
   gap: 22px 32px;
-  border-top: 2px solid color-mix(in srgb, var(--footer-ink) 80%, transparent);
+  border-top: 2px solid rgb(var(--footer-ink-rgb) / 0.8);
   font-size: 0.82rem;
 }
 
 .footer-bottom > p {
-  color: color-mix(in srgb, var(--footer-ink) 72%, transparent);
+  color: rgb(var(--footer-ink-rgb) / 0.72);
 }
 
 .footer-legal {
@@ -220,7 +236,7 @@
 }
 
 .footer-legal a {
-  color: color-mix(in srgb, var(--footer-ink) 80%, transparent);
+  color: rgb(var(--footer-ink-rgb) / 0.8);
   transition: color 200ms ease;
 }
 
@@ -299,6 +315,18 @@
 
 @media (prefers-reduced-motion: reduce) {
   .orb-track {
+    transform: none;
+    will-change: auto;
+  }
+
+  .site-footer.is-in-view .orb {
+    animation: none;
+  }
+
+  .footer-whatsapp:hover,
+  .footer-whatsapp:active,
+  .footer-whatsapp:hover .footer-whatsapp-icon,
+  .footer-top-link:hover {
     transform: none;
   }
 }

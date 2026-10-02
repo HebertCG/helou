@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { supportsInViewObserver } from './useInView.js'
 
 const clamp01 = (value) => Math.min(1, Math.max(0, value))
 
@@ -7,6 +8,9 @@ const clamp01 = (value) => Math.min(1, Math.max(0, value))
  * --scroll-progress: 0 → 1 mientras cruza todo el viewport.
  * --enter-progress:  0 → 1 desde que asoma abajo hasta que se ve completo
  *                    (o llega arriba, si es más alto que la pantalla).
+ *
+ * Sólo escucha el scroll mientras el elemento está a la vista: fuera de ella no
+ * hay nada que animar y en móvil cada medición cuesta un recálculo de layout.
  */
 export function useScrollProgress(ref) {
   useEffect(() => {
@@ -26,14 +30,35 @@ export function useScrollProgress(ref) {
     const schedule = () => {
       if (!frame) frame = window.requestAnimationFrame(update)
     }
-
-    update()
-    window.addEventListener('scroll', schedule, { passive: true })
-    window.addEventListener('resize', schedule)
-    return () => {
+    const stop = () => {
       window.cancelAnimationFrame(frame)
+      frame = 0
       window.removeEventListener('scroll', schedule)
       window.removeEventListener('resize', schedule)
+    }
+    const start = () => {
+      window.addEventListener('scroll', schedule, { passive: true })
+      window.addEventListener('resize', schedule)
+      schedule()
+    }
+
+    update()
+
+    if (!supportsInViewObserver) {
+      start()
+      return stop
+    }
+
+    // Un margen generoso para que el valor ya esté bien antes de asomar.
+    const observer = new IntersectionObserver(
+      ([entry]) => (entry.isIntersecting ? start() : stop()),
+      { threshold: 0, rootMargin: '20% 0px 20% 0px' },
+    )
+    observer.observe(element)
+
+    return () => {
+      observer.disconnect()
+      stop()
     }
   }, [ref])
 }

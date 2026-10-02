@@ -6,6 +6,12 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build: {
+    /*
+     * Objetivo explícito de navegadores: baja la sintaxis moderna de JS y añade
+     * los prefijos -webkit- que necesita Safari (iOS 15 en adelante).
+     */
+    target: ['es2020', 'chrome90', 'edge90', 'firefox90', 'safari15'],
+    cssTarget: ['chrome90', 'edge90', 'firefox90', 'safari15'],
     rollupOptions: {
       input: {
         main: resolve(import.meta.dirname, 'index.html'),
