@@ -11,6 +11,8 @@ npm run build
 npm run test:e2e
 ```
 
+El build prerenderiza la portada y las páginas legales. El servidor entrega contenido HTML completo a buscadores y usuarios, y React lo hidrata para conservar las interacciones.
+
 Las pruebas E2E cubren móvil, tablet, laptop y escritorio en Chromium, y además
 Safari (WebKit) en iPhone y escritorio, incluido el caso con «Reducir movimiento»
 activado. Requieren los navegadores instalados: `npx playwright install chromium webkit`.
@@ -26,3 +28,7 @@ activado. Requieren los navegadores instalados: `npx playwright install chromium
 - Comando de build: `npm run build`
 - Carpeta de salida: `dist`
 - Variable de entorno: `VITE_WHATSAPP_NUMBER`
+
+## SEO
+
+La implementación y el alta paso a paso en Google están documentadas en [`SEO-PERU.md`](./SEO-PERU.md).

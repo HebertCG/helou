@@ -1,5 +1,5 @@
 import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
 import '../fonts.js'
 import '../styles.css'
 import { CookiePolicy } from './CookiePolicy.jsx'
@@ -16,8 +16,11 @@ const root = document.getElementById('root')
 const Page = pages[root.dataset.page] ?? PrivacyPolicy
 document.documentElement.classList.add('fonts-ready')
 
-createRoot(root).render(
+const app = (
   <StrictMode>
     <Page />
-  </StrictMode>,
+  </StrictMode>
 )
+
+if (root.hasChildNodes()) hydrateRoot(root, app)
+else createRoot(root).render(app)

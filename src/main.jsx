@@ -1,5 +1,5 @@
 import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
 import './fonts.js'
 import App from './App.jsx'
 import './styles.css'
@@ -27,8 +27,12 @@ Promise.race([
   new Promise((resolve) => window.setTimeout(resolve, FONT_WAIT_LIMIT_MS)),
 ]).then(markFontsReady, markFontsReady)
 
-createRoot(document.getElementById('root')).render(
+const root = document.getElementById('root')
+const app = (
   <StrictMode>
     <App />
-  </StrictMode>,
+  </StrictMode>
 )
+
+if (root.hasChildNodes()) hydrateRoot(root, app)
+else createRoot(root).render(app)

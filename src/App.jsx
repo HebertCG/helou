@@ -15,6 +15,7 @@ import {
 import { Brand } from './components/Brand.jsx'
 import { ConversationLab } from './components/ConversationLab.jsx'
 import { Manifesto } from './components/Manifesto.jsx'
+import { SeoFaq } from './components/SeoFaq.jsx'
 import { SiteFooter } from './components/SiteFooter.jsx'
 import { WhatsAppButton } from './components/WhatsAppButton.jsx'
 import { supportsInViewObserver } from './hooks/useInView.js'
@@ -159,7 +160,7 @@ function App() {
       <main id="contenido">
         <section className="hero" id="inicio">
           <div className="hero-copy hero-enter">
-            <p className="hero-kicker">Diseño de experiencias conversacionales con IA.</p>
+            <p className="hero-kicker">Diseño conversacional con IA para empresas en Perú.</p>
             <h1>
               <span className="hero-title-line">Diseñamos <span className="hero-title-extra">experiencias</span></span>
               <span className="hero-title-line hero-title-wide"><span className="hero-highlight">con</span>versacionales</span>
@@ -202,7 +203,8 @@ function App() {
             <div>
               <h2>Diseño conversacional</h2>
               <p>
-                Convertimos objetivos de negocio en conversaciones claras, útiles y coherentes con tu marca.
+                Diseñamos asistentes virtuales y chatbots con IA a partir de tus objetivos de negocio:
+                conversaciones claras, útiles y coherentes con tu marca.
               </p>
               <a className="button" href="#contacto">Hablemos <ArrowRight size={18} /></a>
             </div>
@@ -324,6 +326,8 @@ function App() {
             ))}
           </div>
         </section>
+
+        <SeoFaq />
 
         <Manifesto />
 

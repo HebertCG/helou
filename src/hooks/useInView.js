@@ -11,11 +11,16 @@ export const supportsInViewObserver = typeof IntersectionObserver === 'function'
  * inicio: preferimos mostrar el contenido sin animar antes que esconderlo.
  */
 export function useInView(ref, { once = false, rootMargin = '0px 0px -8% 0px' } = {}) {
-  const [isInView, setIsInView] = useState(!supportsInViewObserver)
+  // El mismo estado inicial en servidor y navegador evita diferencias al hidratar HTML prerenderizado.
+  const [isInView, setIsInView] = useState(false)
 
   useEffect(() => {
     const element = ref.current
-    if (!element || !supportsInViewObserver) return undefined
+    if (!element) return undefined
+    if (!supportsInViewObserver) {
+      setIsInView(true)
+      return undefined
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
